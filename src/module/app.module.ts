@@ -3,6 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from '../controller/app.controller';
 import { AppService } from '../services/app.service';
 import { UserModule } from './user.module';
+import { DepartmentModule } from './department.module';
+import { CompanyModule } from './company.module';
+import { AuthModule } from './auth.module';
 
 @Module({
   imports: [
@@ -15,11 +18,13 @@ import { UserModule } from './user.module';
         password: '123456',
         database: 'happyworkpro',
         entities: [__dirname + '/**/*.entity{.ts,.js}'], 
-        synchronize: true, 
-        
+        synchronize: true,
       }),
     }),
-    UserModule
+    AuthModule,
+    UserModule,
+    DepartmentModule,
+    CompanyModule
   ],
   controllers: [AppController],
   providers: [AppService],
