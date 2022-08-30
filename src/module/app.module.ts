@@ -15,8 +15,7 @@ import { UserModule } from './user.module';
         password: '123456',
         database: 'happyworkpro',
         entities: [__dirname + '/**/*.entity{.ts,.js}'], 
-        synchronize: true, 
-        
+        synchronize: true,
       }),
     }),
     UserModule
