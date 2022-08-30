@@ -2,8 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 
+export type User = any;
 @Injectable()
 export class UserService {
+    private readonly users = [
+        {
+          userId: 1,
+          username: 'authuser',
+          password: 'P@ssw0rd1',
+        },
+        {
+          userId: 2,
+          username: 'happy',
+          password: 'P@ssw0rd2',
+        },
+    ]
     constructor(
         @InjectConnection() private readonly connection: Connection
     ) {}
@@ -38,5 +51,9 @@ export class UserService {
         } catch (error) {
             console.log('error ', error);
         }
+    }
+
+    async findOneUser(username: string): Promise<User | undefined> {
+        return this.users.find(user => user.username === username);
     }
 }
