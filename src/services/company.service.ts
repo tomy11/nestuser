@@ -36,4 +36,24 @@ export class CompanyService {
       console.log('error ', error);
     }
   }
+
+  async getAllCompanySection(): Promise<any[]> {
+    try {
+      const sqlQuery = 'SELECT * FROM jnzhr_company_section';
+      const result: any = await this.connection.query(sqlQuery);
+      return result;
+    } catch (error) {
+      console.log('error ', error);
+    }
+  }
+
+  async getAllCompanySectionMember(): Promise<any[]> {
+    try {
+      const sqlQuery = 'SELECT * FROM jnzhr_company_section_member';
+      const result: any = await this.connection.query(sqlQuery);
+      return result;
+    } catch (error) {
+      console.log('error ', error);
+    }
+  }
 }

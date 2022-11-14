@@ -15,4 +15,27 @@ export class CompanyController {
       console.log('error ', error);
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/company-section')
+  async getAllCompanySection(): Promise<any[]> {
+    try {
+      const result: any = await this.companyService.getAllCompanySection();
+      return result;
+    } catch (error) {
+      console.log('error ', error);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/company-section-member')
+  async getAllCompanySectionMember(): Promise<any[]> {
+    try {
+      const result: any =
+        await this.companyService.getAllCompanySectionMember();
+      return result;
+    } catch (error) {
+      console.log('error ', error);
+    }
+  }
 }
