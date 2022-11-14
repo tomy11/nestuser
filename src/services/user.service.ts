@@ -16,11 +16,6 @@ export class UserService {
       username: 'happy',
       password: 'f%ZH$$9CqDp<',
     },
-    {
-      userId: 3,
-      username: 'chatchaik@thaioilgroup.com',
-      password: 'f%ZH$$9CqDp<',
-    },
   ];
   constructor(@InjectConnection() private readonly connection: Connection) {}
 
@@ -36,6 +31,7 @@ export class UserService {
         'ju.th_title,\n' +
         'ju.th_first_name,\n' +
         'ju.th_last_name,\n' +
+        'ju.is_active,\n' +
         "SUBSTRING_INDEX(SUBSTRING_INDEX(ju.display_name, '.', 1), '.', -1) AS title_en,\n" +
         'ju.first_name,\n' +
         'ju.last_name,\n' +
@@ -48,7 +44,7 @@ export class UserService {
         'LEFT JOIN jnzhr_company_department jcd ON jcd.department_id = ju.fk_department_id\n' +
         'INNER JOIN jnzhr_company_section_member jcsm ON jcsm.fk_user_id = ju.id \n' +
         'INNER JOIN jnzhr_company_section jcs ON jcs.id = jcsm.fk_section_id\n' +
-        'WHERE ju.employee_id IS NOT NULL AND ju.is_active = 1\n' +
+        'WHERE ju.employee_id IS NOT NULL\n' +
         'GROUP BY jcsm.fk_user_id, jcs.section_name, jcd.department_name\n' +
         'ORDER BY ju.employee_id;';
       //"SELECT * FROM jnzhr_users";
