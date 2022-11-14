@@ -16,11 +16,6 @@ export class UserService {
       username: 'happy',
       password: 'f%ZH$$9CqDp<',
     },
-    {
-      userId: 3,
-      username: 'chatchaik@thaioilgroup.com',
-      password: 'f%ZH$$9CqDp<',
-    },
   ];
   constructor(@InjectConnection() private readonly connection: Connection) {}
 
