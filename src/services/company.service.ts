@@ -1,12 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
+import { ERROR_MESSAGES } from '../utils/constants';
+import {
+  CompanyDto,
+  CompanySectionDto,
+  CompanySectionMemberDto,
+} from '../dto/company.dto';
 
 @Injectable()
 export class CompanyService {
+  private readonly logger = new Logger(CompanyService.name);
+
   constructor(@InjectConnection() private readonly connection: Connection) {}
 
-  async getAllCompany(): Promise<any[]> {
+  private toAppError(message: string, error: unknown): Error {
+    this.logger.error(`${message}:`, error);
+    return new Error(message);
+  }
+
+  async getAllCompany(): Promise<CompanyDto[]> {
     try {
       const sqlQuery =
         'SELECT \n' +
@@ -28,32 +41,36 @@ export class CompanyService {
         'wizard_setting,\n' +
         'fk_company_group,\n' +
         'fk_customer_status\n' +
-        'FROM jnzhr_company';
+        'FROM company';
 
-      const result: any = await this.connection.query(sqlQuery);
+      const result = (await this.connection.query(sqlQuery)) as CompanyDto[];
       return result;
     } catch (error) {
-      console.log('error ', error);
+      throw this.toAppError(ERROR_MESSAGES.COMPANY_QUERY_FAILED, error);
     }
   }
 
-  async getAllCompanySection(): Promise<any[]> {
+  async getAllCompanySection(): Promise<CompanySectionDto[]> {
     try {
-      const sqlQuery = 'SELECT * FROM jnzhr_company_section';
-      const result: any = await this.connection.query(sqlQuery);
+      const sqlQuery = 'SELECT * FROM company_section';
+      const result = (await this.connection.query(
+        sqlQuery,
+      )) as CompanySectionDto[];
       return result;
     } catch (error) {
-      console.log('error ', error);
+      throw this.toAppError(ERROR_MESSAGES.SECTION_QUERY_FAILED, error);
     }
   }
 
-  async getAllCompanySectionMember(): Promise<any[]> {
+  async getAllCompanySectionMember(): Promise<CompanySectionMemberDto[]> {
     try {
-      const sqlQuery = 'SELECT * FROM jnzhr_company_section_member';
-      const result: any = await this.connection.query(sqlQuery);
+      const sqlQuery = 'SELECT * FROM company_section_member';
+      const result = (await this.connection.query(
+        sqlQuery,
+      )) as CompanySectionMemberDto[];
       return result;
     } catch (error) {
-      console.log('error ', error);
+      throw this.toAppError(ERROR_MESSAGES.SECTION_MEMBER_QUERY_FAILED, error);
     }
   }
 }
